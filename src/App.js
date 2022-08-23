@@ -4,28 +4,26 @@ import AddItem from './AddItem';
 import Content1 from './Content1';
 import Footer from './Footer';
 import SearchItem from './SearchItem';
-import { useState } from 'react';
-import { FaLessThanEqual } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 
 function App() {
   // we want to total our no. of items in our list 
   // so we have need to access content1 data by footer  
   // this is the place where we locate the common data we are going to use 
 
-  const [items, setItems] = useState(JSON.parse(localStorage.getItem('ShoppingList')));
+  const [items, setItems] = useState(JSON.parse(localStorage.getItem('ShoppingList')) || []);
   const [newItem, setNewItem] = useState('')
   const [search, setSearch] = useState('')
 
-  const setAndSaveItems = (newItems) => {
-    setItems(newItems);
-    localStorage.setItem('ShoppingList', JSON.stringify(newItems));
-  }
+  useEffect(() => {
+    localStorage.setItem('ShoppingList', JSON.stringify(items));
+  }, [items])
 
   const addItem = (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     const myNewItem = { id, checked: false, item };
     const listItems = [...items, myNewItem];
-    setAndSaveItems(listItems);
+    setItems(listItems);
   }
   const handleCheck = (id) => {
     // map is because we can't directly access/change our data
@@ -39,7 +37,7 @@ function App() {
 
   const handleDelete = (id) => {
     const listItems = items.filter((item) => item.id !== id);
-    setAndSaveItems(listItems);
+    setItems(listItems);
   }
 
   const handleSubmit = (e) => {
