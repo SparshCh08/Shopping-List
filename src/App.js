@@ -11,7 +11,34 @@ function App() {
   // so we have need to access content1 data by footer  
   // this is the place where we locate the common data we are going to use 
 
-  const [items, setItems] = useState(JSON.parse(localStorage.getItem('ShoppingList')) || []);
+
+
+
+
+  let defaultList = JSON.parse(localStorage.getItem('ShoppingList'));
+
+  if (defaultList.length === 0) {
+    defaultList = [{
+      "id": 1,
+      "checked": false,
+      "item": "Almonds"
+    },
+    {
+      "id": 2,
+      "checked": false,
+      "item": "Pizza"
+    },
+    {
+      "id": 3,
+      "checked": false,
+      "item": "Bread"
+    }];
+  }
+  // console.log(defaultList.length);
+  const [items, setItems] = useState(defaultList);
+
+
+  // const [items, setItems] = useState(JSON.parse(localStorage.getItem('ShoppingList')) || []);
   const [newItem, setNewItem] = useState('')
   const [search, setSearch] = useState('')
 
